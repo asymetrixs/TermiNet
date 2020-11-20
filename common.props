@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Damian Wolgast</Authors>
+    <Version>1.0.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Copyright>Copyright 2020</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>
