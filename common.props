@@ -1,10 +1,14 @@
 <Project>
   <PropertyGroup>
-    <Authors>Damian Wolgast</Authors>
-    <Version>1.0.0</Version>
+    <PackageId>TermiNet</PackageId>
+    <Version>0.1.0-alpha</Version>
     <LangVersion>latest</LangVersion>
-    <Copyright>Copyright 2020</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Nullable>enable</Nullable>
+    <PackageTags>Terminate;Exit;Exception</PackageTags>
+    <Copyright>Copyright 2020</Copyright>
+    <Authors>Damian Wolgast</Authors>
+    <Description>TermiNet helps to exit an application in accordance with OS platform requirements.</Description>
+    <Title>TermiNet - A library to properly exit from an application.</Title>
   </PropertyGroup>
 </Project>

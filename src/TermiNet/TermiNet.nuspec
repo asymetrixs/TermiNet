@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Damian Wolgast</authors>
+    <owners>asymetrixs</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/asymetrixs/TermiNet</projectUrl>
+    <!--<iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl>-->
+    <description>$description$</description>
+    <releaseNotes>Initial alpha.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>exit terminate exitcode exceptions</tags>
+    <dependencies>
+      <group targetFramework="net5.0" />
+    </dependencies>
+  </metadata>
+
+  <files>
+    <file src="../../README.md" target="" />
+  </files>
+</package>
