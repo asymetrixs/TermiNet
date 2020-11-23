@@ -12,7 +12,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="TerminateEventArgs"/> class.
         /// </summary>
-        /// <param name="exitCode"></param>
+        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 150 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
         /// <param name="exitMessage"></param>
         public TerminateEventArgs(int exitCode, string? exitMessage = null)
         {

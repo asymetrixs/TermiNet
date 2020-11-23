@@ -10,6 +10,9 @@
         {
             var fakeTerminator = new FakeTerminator();
 
+            // Register fakeTerminator as ITerminator in your IoC container
+            // Retrieve fakeTerminator using ITerminator
+
             fakeTerminator.Terminate(55, "Last message");
             // no real termination, but testing framework could retrieve the exit code and message
 

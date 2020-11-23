@@ -12,10 +12,12 @@
             // Create cancellation token
             var cts = new CancellationTokenSource();
 
-            // Setup termintator
+            // Set up builder
             var builder = TerminatorBuilder.CreateBuilder()
                 .RegisterCancellationToken(cts.Token, 20, "Terminated by CTS");
             builder.TerminateEventHandler += Exit_Terminating;
+
+            // Build terminator
             var terminator = builder.Build();
 
             // Display something on console
@@ -24,7 +26,7 @@
                 while (true)
                 {
                     Console.WriteLine("Hello");
-                    await Task.Delay(2000).ConfigureAwait(false);                    
+                    await Task.Delay(2000).ConfigureAwait(false);
                 }
             });
 
@@ -36,6 +38,8 @@
 
             // Application has exited before this line is executed
             Console.WriteLine("I should not run...");
+
+            await Task.CompletedTask;
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Runtime.InteropServices;
     using TermiNet.Event;
+    using TermiNet.ReservedCodes;
 
     /// <summary>
     /// Is used by an application to initiate termination of the application
@@ -163,7 +164,7 @@
         /// <summary>
         /// Terminates the app
         /// </summary>
-        /// <param name="exitCode">Exit code</param>
+        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 150 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
         /// <param name="exitMessage">Exit message for use in <see cref="OnTerminating(TerminateEventArgs)"/></param>
         [DoesNotReturn]
         public void Terminate(int exitCode, string? exitMessage = null)
@@ -213,6 +214,20 @@
             {
                 throw new ArgumentOutOfRangeException($"Exit codes are out of range for OS plattform {this.OSPlatform}. Exit code must be between {this.DefaultCleanExitCode} (clean exit) and {this.MaxErrorExitCode}");
             }
+
+            if (this.OSPlatform == OSPlatform.Linux || this.OSPlatform == OSPlatform.OSX || this.OSPlatform == OSPlatform.FreeBSD)
+            {
+                // Checking codes against reserved exit codes
+                foreach (var item in this._registry)
+                {
+                    if (Enum.IsDefined(typeof(UnixCode), item.Value.ExitCode))
+                    {
+                        var linuxExitCode = (UnixCode)item.Value.ExitCode;
+
+                        throw new ArgumentException($"Exit code {item.Value} is already defined by Linux: {linuxExitCode.ToString()}");
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -221,7 +236,7 @@
         /// <param name="e">Event</param>
         private void OnTerminating(TerminateEventArgs e)
         {
-            _terminateEventHandler?.Invoke(null, e);
+            _terminateEventHandler?.Invoke(this, e);
         }
 
         /// <summary>

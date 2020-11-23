@@ -9,12 +9,14 @@
         {
             Console.WriteLine("Hello World!");
 
+            // Set up builder
             var builder = TerminatorBuilder.CreateBuilder()
                 .RegisterCtrlC()
                 .RegisterPreTerminationAction(() => { Console.WriteLine("Pre Termination Action"); })
-                .Register<ArgumentException>(100, "Optional example message");
+                .Register<ArgumentException>(77, "Optional example message");
             builder.TerminateEventHandler += Exit_Terminating;
 
+            // Build terminator
             var terminator = builder.Build();
 
             try

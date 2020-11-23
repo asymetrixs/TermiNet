@@ -8,7 +8,7 @@
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            ExampleForUsageWithCT.Run();
+            ExampleForUsage.Run();
         }
     }
 }
