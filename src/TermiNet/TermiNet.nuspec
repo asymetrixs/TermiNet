@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/asymetrixs/TermiNet</projectUrl>
     <!--<iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl>-->
     <description>$description$</description>
-    <releaseNotes>Initial alpha.</releaseNotes>
+    <releaseNotes>Redesigned setup. Added support for hooking onto a CancellationToken.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>exit terminate exitcode exceptions</tags>
     <dependencies>
