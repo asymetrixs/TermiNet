@@ -2,6 +2,9 @@
 {
     using System.Threading;
 
+    /// <summary>
+    /// Holds information about a <see cref="CancellationToken"/> to hook onto it
+    /// </summary>
     internal class TerminationToken
     {
         #region Constructor

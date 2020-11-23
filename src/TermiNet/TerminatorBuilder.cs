@@ -6,7 +6,7 @@
     using TermiNet.Event;
 
     /// <summary>
-    /// Static class setting up the <see cref="Terminator"/>
+    /// Configures and builds the <see cref="Terminator"/>
     /// </summary>
     public class TerminatorBuilder
     {
@@ -103,7 +103,7 @@
         /// <param name="exitCode">Exit code when token gets cancelled</param>
         /// <param name="exitMessage">Exit message when token gets cancelled</param>
         /// <returns></returns>
-        public TerminatorBuilder TerminateIfCancelled(CancellationToken token, int exitCode, string? exitMessage = null)
+        public TerminatorBuilder RegisterCancellationToken(CancellationToken token, int exitCode, string? exitMessage = null)
         {
             if (this._terminationToken is not null)
             {

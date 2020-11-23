@@ -7,6 +7,9 @@
     using System.Runtime.InteropServices;
     using TermiNet.Event;
 
+    /// <summary>
+    /// Is used by an application to initiate termination of the application
+    /// </summary>
     public class Terminator : ITerminator
     {
         #region Fields
