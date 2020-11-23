@@ -26,6 +26,11 @@
         /// </summary>
         private Action? _preTerminationAction = null;
 
+        /// <summary>
+        /// Termination token
+        /// </summary>
+        private TerminationToken? _terminationToken = null;
+
         #endregion
 
         #region Constructor
@@ -40,7 +45,8 @@
         internal Terminator(Dictionary<Type, TerminateEventArgs> errorCodeRegistry,
             bool registerCtrlC = false,
             EventHandler<TerminateEventArgs>? terminateEventHandlers = null,
-            Action? preTerminationAction = null)
+            Action? preTerminationAction = null,
+            TerminationToken? terminationToken = null)
         {
             _ = errorCodeRegistry ?? throw new ArgumentNullException(nameof(errorCodeRegistry));
 
@@ -96,6 +102,17 @@
             this._terminateEventHandler = terminateEventHandlers;
 
             this._preTerminationAction = preTerminationAction;
+
+            this._terminationToken = terminationToken;
+
+            if (this._terminationToken is not null)
+            {
+                // Registers a callback to terminate the application
+                this._terminationToken.Token.Register(() =>
+                {
+                    _Terminate(new TerminateEventArgs(this._terminationToken.ExitCode, this._terminationToken.ExitMessage));
+                });
+            }
         }
 
         #endregion
@@ -129,13 +146,15 @@
 
         #endregion
 
+        #region Methods
+
         /// <summary>
         /// Terminates the app signaling a clean exit
         /// </summary>
         [DoesNotReturn]
         public void Terminate()
         {
-            _Terminate(new TerminateEventArgs(DefaultCleanExitCode, null));
+            _Terminate(new TerminateEventArgs(this.DefaultCleanExitCode, null));
         }
 
         /// <summary>
@@ -146,9 +165,9 @@
         [DoesNotReturn]
         public void Terminate(int exitCode, string? exitMessage = null)
         {
-            if (exitCode > MaxErrorExitCode)
+            if (exitCode > this.MaxErrorExitCode)
             {
-                exitCode = MaxErrorExitCode;
+                exitCode = this.MaxErrorExitCode;
             }
 
             _Terminate(new TerminateEventArgs(exitCode, exitMessage));
@@ -167,7 +186,7 @@
             }
             else
             {
-                _Terminate(new TerminateEventArgs(DefaultErrorExitCode, $"Unspecified error. {e.GetType().Name}: {e.Message}"));
+                _Terminate(new TerminateEventArgs(this.DefaultErrorExitCode, $"Unspecified error. {e.GetType().Name}: {e.Message}"));
             }
         }
 
@@ -186,9 +205,10 @@
         /// </summary>
         internal void Validate()
         {
-            if (this._registry.Any(item => item.Value.ExitCode < DefaultCleanExitCode || item.Value.ExitCode > MaxErrorExitCode))
+            if (this._registry.Any(item => item.Value.ExitCode < this.DefaultCleanExitCode || item.Value.ExitCode > this.MaxErrorExitCode)
+                || this._terminationToken?.ExitCode < this.DefaultCleanExitCode || this._terminationToken?.ExitCode > this.MaxErrorExitCode)
             {
-                throw new ArgumentOutOfRangeException($"Exit codes are out of range for OS plattform {OSPlatform}: {DefaultCleanExitCode} < X <= {MaxErrorExitCode}");
+                throw new ArgumentOutOfRangeException($"Exit codes are out of range for OS plattform {this.OSPlatform}. Exit code must be between {this.DefaultCleanExitCode} (clean exit) and {this.MaxErrorExitCode}");
             }
         }
 
@@ -228,5 +248,7 @@
 
             Environment.Exit(exitEventArgs.ExitCode);
         }
+
+        #endregion
     }
 }

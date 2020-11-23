@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using TermiNet.Event;
 
     /// <summary>
@@ -25,6 +26,11 @@
         /// Pre termination action is called before <see cref="TerminateEventHandler"/>
         /// </summary>
         private Action? preTerminationAction = null;
+
+        /// <summary>
+        /// Termination token
+        /// </summary>
+        private TerminationToken? _terminationToken = null;
 
         #endregion
 
@@ -91,6 +97,25 @@
         }
 
         /// <summary>
+        /// Registers a cancellation token that terminates the application using TermiNet when it gets cancelled
+        /// </summary>
+        /// <param name="token">Token to attach to</param>
+        /// <param name="exitCode">Exit code when token gets cancelled</param>
+        /// <param name="exitMessage">Exit message when token gets cancelled</param>
+        /// <returns></returns>
+        public TerminatorBuilder TerminateIfCancelled(CancellationToken token, int exitCode, string? exitMessage = null)
+        {
+            if (this._terminationToken is not null)
+            {
+                throw new ArgumentException("Cancellation token is already registered.");
+            }
+
+            this._terminationToken = new TerminationToken(token, exitCode, exitMessage);
+
+            return this;
+        }
+
+        /// <summary>
         /// Build the <see cref="Terminator"/>
         /// </summary>
         public ITerminator Build()
@@ -98,7 +123,8 @@
             var terminator = new Terminator(this._registry,
                 this._registerCTRLC,
                 this.TerminateEventHandler,
-                this.preTerminationAction);
+                this.preTerminationAction,
+                this._terminationToken);
 
             terminator.Validate();
 
