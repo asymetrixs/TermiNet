@@ -5,16 +5,16 @@
     /// <summary>
     /// Event that is fired when an app terminates
     /// </summary>
-    public class ExitEventArgs : EventArgs
+    public class TerminateEventArgs : EventArgs
     {
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExitEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="TerminateEventArgs"/> class.
         /// </summary>
         /// <param name="exitCode"></param>
         /// <param name="exitMessage"></param>
-        public ExitEventArgs(int exitCode, string exitMessage = null)
+        public TerminateEventArgs(int exitCode, string? exitMessage = null)
         {
             this.ExitCode = exitCode;
             this.ExitMessage = exitMessage;
@@ -32,7 +32,7 @@
         /// <summary>
         /// Exit message, optional
         /// </summary>
-        public string ExitMessage { get; init; }
+        public string? ExitMessage { get; init; }
 
         #endregion
 
