@@ -61,7 +61,7 @@
         /// <summary>
         /// Registers an exit code and message for an specific exception type
         /// </summary>
-        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 150 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
+        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
         /// <param name="exitMessage">Exit Message</param>
         public TerminatorBuilder Register<T>(int exitCode, string? exitMessage = null)
             where T : Exception
@@ -100,7 +100,7 @@
         /// Registers a cancellation token that terminates the application using TermiNet when it gets cancelled
         /// </summary>
         /// <param name="token">Token to attach to</param>
-        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 150 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
+        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
         /// <param name="exitMessage">Exit message when token gets cancelled</param>
         /// <returns></returns>
         public TerminatorBuilder RegisterCancellationToken(CancellationToken token, int exitCode, string? exitMessage = null)

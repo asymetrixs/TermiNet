@@ -156,7 +156,7 @@
         /// <summary>
         /// SIGKILL (e.g. kill -9)
         /// </summary>
-        KILL = 137,
+        SIGKILL = 137,
 
         /// <summary>
         /// SIGUSR1
@@ -187,6 +187,86 @@
         /// SIGTERM
         /// </summary>
         SIGTERM = 143,
+
+        /// <summary>
+        /// SIGSTKFLT
+        /// </summary>
+        SIGSTKLFT = 144,
+
+        /// <summary>
+        /// SIGCHLD
+        /// </summary>
+        SIGCHLD = 145,
+
+        /// <summary>
+        /// SIGCONT
+        /// </summary>
+        SIGCONT = 146,
+
+        /// <summary>
+        /// SIGSTOP
+        /// </summary>
+        SIGSTOP = 147,
+
+        /// <summary>
+        /// SIGTSTP
+        /// </summary>
+        SIGTSTP = 148,
+
+        /// <summary>
+        /// SIGTTIN
+        /// </summary>
+        SIGTTIN = 149,
+
+        /// <summary>
+        /// SIGTTOU
+        /// </summary>
+        SIGTTOU = 150,
+
+        /// <summary>
+        /// SIGURG
+        /// </summary>
+        SIGURG = 151,
+
+        /// <summary>
+        /// SIGXCPU
+        /// </summary>
+        SIGXCPU = 152,
+
+        /// <summary>
+        /// SIGXFSZ
+        /// </summary>
+        SIGXFSZ = 153,
+
+        /// <summary>
+        /// SIGVTALRM
+        /// </summary>
+        SIGVTARLM = 154,
+
+        /// <summary>
+        /// SIGPROF
+        /// </summary>
+        SIGPROF = 155,
+
+        /// <summary>
+        /// SIGWINCH
+        /// </summary>
+        SIGWINCH = 156,
+
+        /// <summary>
+        /// SIGPOLL
+        /// </summary>
+        SIGPOLL = 157,
+
+        /// <summary>
+        /// SIGPWR
+        /// </summary>
+        SIGPWR = 158,
+
+        /// <summary>
+        /// SIGSYS
+        /// </summary>
+        SIGSYS = 159,
 
         /// <summary>
         /// Exit status out of range

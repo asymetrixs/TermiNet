@@ -164,7 +164,7 @@
         /// <summary>
         /// Terminates the app
         /// </summary>
-        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 150 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
+        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
         /// <param name="exitMessage">Exit message for use in <see cref="OnTerminating(TerminateEventArgs)"/></param>
         [DoesNotReturn]
         public void Terminate(int exitCode, string? exitMessage = null)
