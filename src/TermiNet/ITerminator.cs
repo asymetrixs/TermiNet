@@ -29,8 +29,8 @@
         /// <summary>
         /// OS platform
         /// </summary>
-        OSPlatform OSPlatform { get; }
-                        
+        OSPlatform OsPlatform { get; }
+
         /// <summary>
         /// Terminates the app signaling a clean exit
         /// </summary>

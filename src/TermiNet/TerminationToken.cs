@@ -1,6 +1,7 @@
 ﻿namespace TermiNet
 {
     using System.Threading;
+    using TermiNet.Event;
 
     /// <summary>
     /// Holds information about a <see cref="CancellationToken"/> to hook onto it
@@ -13,13 +14,12 @@
         /// Initializes a new instance of the <see cref="TerminationToken"/> class.
         /// </summary>
         /// <param name="token">Cancellation token to attach to</param>
-        /// <param name="exitCode">Exit code when token gets cancelled</param>
-        /// <param name="exitMessage">Exit message when token gets cancelled</param>
-        internal TerminationToken(CancellationToken token, int exitCode, string? exitMessage = null)
+        /// <param name="terminateEventArgs">Terminate event args</param>
+        internal TerminationToken(CancellationToken token, TerminateEventArgs terminateEventArgs)
         {
             this.Token = token;
-            this.ExitCode = exitCode;
-            this.ExitMessage = exitMessage;
+            this.TerminateEvent = terminateEventArgs;
+
         }
 
         #endregion
@@ -29,17 +29,20 @@
         /// <summary>
         /// Cancellation token
         /// </summary>
+#if NET5_0
         internal CancellationToken Token { get; init; }
+#else
+        internal CancellationToken Token { get; private set; }
+#endif
 
         /// <summary>
         /// Exit code
         /// </summary>
-        internal int ExitCode { get; init; }
-
-        /// <summary>
-        /// Exit message
-        /// </summary>
-        internal string? ExitMessage { get; init; }
+#if NET5_0
+        internal TerminateEventArgs TerminateEvent { get; init; }
+#else
+        internal TerminateEventArgs TerminateEvent { get; private set; }
+#endif
 
         #endregion
     }

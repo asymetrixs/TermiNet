@@ -3,10 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Runtime.InteropServices;
     using TermiNet.Event;
-    using TermiNet.ReservedCodes;
 
     /// <summary>
     /// Is used by an application to initiate termination of the application
@@ -18,22 +16,22 @@
         /// <summary>
         /// Store for <see cref="TerminateEventArgs"/>
         /// </summary>
-        private Dictionary<Type, TerminateEventArgs> _registry = new();
+        private readonly Dictionary<Type, TerminateEventArgs> _registry = new();
 
         /// <summary>
         /// Event is called before application exists
         /// </summary>
-        private EventHandler<TerminateEventArgs>? _terminateEventHandler = null;
+        private readonly EventHandler<TerminateEventArgs>? _terminateEventHandler = null;
 
         /// <summary>
         /// Pre termination action is called before <see cref="_terminateEventHandler"/>
         /// </summary>
-        private Action? _preTerminationAction = null;
+        private readonly Action? _preTerminationAction = null;
 
         /// <summary>
         /// Termination token
         /// </summary>
-        private TerminationToken? _terminationToken = null;
+        private readonly TerminationToken? _terminationToken = null;
 
         #endregion
 
@@ -54,69 +52,32 @@
         {
             _ = errorCodeRegistry ?? throw new ArgumentNullException(nameof(errorCodeRegistry));
 
-            #region OS Platform specifics
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                this.DefaultCleanExitCode = 0;
-                this.DefaultErrorExitCode = 1;
-                this.CtrlCSIGINTExitCode = 130;
-                this.MaxErrorExitCode = 255;
-                this.OSPlatform = OSPlatform.Linux;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-            {
-                this.DefaultCleanExitCode = 0;
-                this.DefaultErrorExitCode = 1;
-                this.CtrlCSIGINTExitCode = 130;
-                this.MaxErrorExitCode = 255;
-                this.OSPlatform = OSPlatform.FreeBSD;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                this.DefaultCleanExitCode = 0;
-                this.DefaultErrorExitCode = 1;
-                this.CtrlCSIGINTExitCode = 130;
-                this.MaxErrorExitCode = 255;
-                this.OSPlatform = OSPlatform.OSX;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                /// TODO
-                this.DefaultCleanExitCode = 0;
-                this.DefaultErrorExitCode = 1;
-                this.CtrlCSIGINTExitCode = 0;
-                this.MaxErrorExitCode = 9999;
-                this.OSPlatform = OSPlatform.Windows;
-            }
-            else
-            {
-                throw new SystemException("Cannot resolve OS platform");
-            }
-
-            #endregion
-
             if (registerCtrlC)
             {
                 Console.CancelKeyPress += Console_CancelKeyPress;
             }
 
             this._registry = errorCodeRegistry;
-
             this._terminateEventHandler = terminateEventHandlers;
-
             this._preTerminationAction = preTerminationAction;
-
             this._terminationToken = terminationToken;
 
+            // Termination token
             if (this._terminationToken is not null)
             {
                 // Registers a callback to terminate the application
                 this._terminationToken.Token.Register(() =>
                 {
-                    _Terminate(new TerminateEventArgs(this._terminationToken.ExitCode, this._terminationToken.ExitMessage));
+                    _Terminate(this._terminationToken.TerminateEvent);
                 });
             }
+
+            // Get platform specific values
+            this.CtrlCSIGINTExitCode = TerminatorBuilder.CtrlCSIGINTExitCode;
+            this.DefaultCleanExitCode = TerminatorBuilder.DefaultCleanExitCode;
+            this.DefaultErrorExitCode = TerminatorBuilder.DefaultErrorExitCode;
+            this.MaxErrorExitCode = TerminatorBuilder.MaxErrorExitCode;
+            this.OsPlatform = TerminatorBuilder.OsPlatform;
         }
 
         #endregion
@@ -126,27 +87,47 @@
         /// <summary>
         /// Default OS platform exit code for CTRL+C (SIGINT)
         /// </summary>
+#if NET5_0
+        public int CtrlCSIGINTExitCode { get; init; }
+#else
         public int CtrlCSIGINTExitCode { get; private set; }
+#endif
 
         /// <summary>
         /// Default OS platform exit code on clean exit
         /// </summary>
+#if NET5_0
+        public int DefaultCleanExitCode { get; init; }
+#else
         public int DefaultCleanExitCode { get; private set; }
+#endif
 
         /// <summary>
         /// Default OS platform exit code on error
         /// </summary>
+#if NET5_0
+        public int DefaultErrorExitCode { get; init; }
+#else
         public int DefaultErrorExitCode { get; private set; }
+#endif
 
         /// <summary>
         /// Maximum possible error code, e.g. on Linnux 255
         /// </summary>
+#if NET5_0
+        public int MaxErrorExitCode { get; init; }
+#else
         public int MaxErrorExitCode { get; private set; }
+#endif
 
         /// <summary>
         /// OS platform
         /// </summary>
-        public OSPlatform OSPlatform { get; private set; }
+#if NET5_0
+        public OSPlatform OsPlatform { get; init; }
+#else
+        public OSPlatform OsPlatform { get; private set; }
+#endif
 
         #endregion
 
@@ -162,9 +143,11 @@
         }
 
         /// <summary>
-        /// Terminates the app
+        /// Terminates the app. Sets the <paramref name="exitCode"/> to <see cref="Terminator.MaxErrorExitCode"/>
+        /// in case it greater than <see cref="Terminator.MaxErrorExitCode"/>
         /// </summary>
-        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
+        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250
+        /// for unsuccessful exit. On Windows, no restrictions are in place.</param>
         /// <param name="exitMessage">Exit message for use in <see cref="OnTerminating(TerminateEventArgs)"/></param>
         [DoesNotReturn]
         public void Terminate(int exitCode, string? exitMessage = null)
@@ -178,7 +161,7 @@
         }
 
         /// <summary>
-        /// Terminates the app. Uses registered information or <see cref="DefaultErrorExitCode"/> and the exceptions name and message.
+        /// Terminates the app. Uses registered information or <see cref="this.DefaultErrorExitCode"/> and the exceptions name and message.
         /// </summary>
         /// <param name="e">Exception that will be used to determine the exit code (if registered).</param>
         [DoesNotReturn]
@@ -204,31 +187,6 @@
             _Terminate(exitEventArgs);
         }
 
-        /// <summary>
-        /// Validates the configuration
-        /// </summary>
-        internal void Validate()
-        {
-            if (this._registry.Any(item => item.Value.ExitCode < this.DefaultCleanExitCode || item.Value.ExitCode > this.MaxErrorExitCode)
-                || this._terminationToken?.ExitCode < this.DefaultCleanExitCode || this._terminationToken?.ExitCode > this.MaxErrorExitCode)
-            {
-                throw new ArgumentOutOfRangeException($"Exit codes are out of range for OS plattform {this.OSPlatform}. Exit code must be between {this.DefaultCleanExitCode} (clean exit) and {this.MaxErrorExitCode}");
-            }
-
-            if (this.OSPlatform == OSPlatform.Linux || this.OSPlatform == OSPlatform.OSX || this.OSPlatform == OSPlatform.FreeBSD)
-            {
-                // Checking codes against reserved exit codes
-                foreach (var item in this._registry)
-                {
-                    if (Enum.IsDefined(typeof(UnixCode), item.Value.ExitCode))
-                    {
-                        var linuxExitCode = (UnixCode)item.Value.ExitCode;
-
-                        throw new ArgumentException($"Exit code {item.Value} is already defined by Linux: {linuxExitCode.ToString()}");
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Is called before the app exits and could be used for instance for logging

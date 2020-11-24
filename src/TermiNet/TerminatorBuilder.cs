@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using System.Threading;
     using TermiNet.Event;
 
@@ -32,6 +33,93 @@
         /// </summary>
         private TerminationToken? _terminationToken = null;
 
+        /// <summary>
+        /// Default clean exit code
+        /// </summary>
+        public static readonly int DefaultCleanExitCode;
+
+        /// <summary>
+        /// Default error exit code
+        /// </summary>
+        public static readonly int DefaultErrorExitCode;
+
+        /// <summary>
+        /// Default SIGINT (CTRL-C) exit code
+        /// </summary>
+        public static readonly int CtrlCSIGINTExitCode;
+
+        /// <summary>
+        /// Maximal exit code (number, not severity)
+        /// </summary>
+        public static readonly int MaxErrorExitCode;
+
+        /// <summary>
+        /// Operating System platform
+        /// </summary>
+        public static readonly OSPlatform OsPlatform;
+
+        /// <summary>
+        /// Validation level
+        /// </summary>
+        private readonly ValidationLevel _validationLevel;
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TerminatorBuilder"/> class.
+        /// </summary>
+        /// <param name="validationLevel"></param>
+        internal TerminatorBuilder(ValidationLevel validationLevel)
+        {
+            this._validationLevel = validationLevel;
+        }
+
+        /// <summary>
+        /// Static constructor
+        /// </summary>
+        static TerminatorBuilder()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                DefaultCleanExitCode = 0;
+                DefaultErrorExitCode = 1;
+                CtrlCSIGINTExitCode = 130;
+                MaxErrorExitCode = 255;
+                OsPlatform = OSPlatform.Linux;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+            {
+                DefaultCleanExitCode = 0;
+                DefaultErrorExitCode = 1;
+                CtrlCSIGINTExitCode = 130;
+                MaxErrorExitCode = 255;
+                OsPlatform = OSPlatform.FreeBSD;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                DefaultCleanExitCode = 0;
+                DefaultErrorExitCode = 1;
+                CtrlCSIGINTExitCode = 130;
+                MaxErrorExitCode = 255;
+                OsPlatform = OSPlatform.OSX;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                /// TODO
+                DefaultCleanExitCode = 0;
+                DefaultErrorExitCode = 1;
+                CtrlCSIGINTExitCode = 0;
+                MaxErrorExitCode = 9999;
+                OsPlatform = OSPlatform.Windows;
+            }
+            else
+            {
+                throw new SystemException("Cannot resolve OS platform");
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -48,10 +136,12 @@
         /// <summary>
         /// Creates a <see cref="TerminatorBuilder"/> instance.
         /// </summary>
-        /// <returns></returns>
-        public static TerminatorBuilder CreateBuilder()
+        /// <param name="validationLevel">Set level of validation for the builder. Multiple values are possible, combine with | (pipe).
+        /// <see cref="ValidationLevel.None"/> renders other flags obsolete.</param>
+        /// <returns>Terminator builder instance</returns>
+        public static TerminatorBuilder CreateBuilder(ValidationLevel validationLevel)
         {
-            return new TerminatorBuilder();
+            return new TerminatorBuilder(validationLevel);
         }
 
         #endregion
@@ -61,37 +151,19 @@
         /// <summary>
         /// Registers an exit code and message for an specific exception type
         /// </summary>
-        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
-        /// <param name="exitMessage">Exit Message</param>
-        public TerminatorBuilder Register<T>(int exitCode, string? exitMessage = null)
+        /// <param name="terminateEventArgs">Arguments</param>
+        public TerminatorBuilder Register<T>(TerminateEventArgs terminateEventArgs)
             where T : Exception
         {
+            Validator.Validate(this._validationLevel, terminateEventArgs);
+
             var type = typeof(T);
             if (this._registry.ContainsKey(type))
             {
                 throw new ArgumentException($"Type {nameof(type)} is already registered");
             }
 
-            this._registry.Add(type, new TerminateEventArgs(exitCode, exitMessage));
-
-            return this;
-        }
-
-        /// <summary>
-        /// Registers <see cref="TerminateEventArgs"/> for an exception type
-        /// </summary>
-        /// <typeparam name="T">Type of the exception</typeparam>
-        /// <param name="args">Arguments</param>
-        public TerminatorBuilder Register<T>(TerminateEventArgs args)
-            where T : Exception
-        {
-            var type = typeof(T);
-            if (this._registry.ContainsKey(type))
-            {
-                throw new ArgumentException($"Type {nameof(type)} is already registered");
-            }
-
-            this._registry.Add(type, args);
+            this._registry.Add(type, terminateEventArgs);
 
             return this;
         }
@@ -100,17 +172,18 @@
         /// Registers a cancellation token that terminates the application using TermiNet when it gets cancelled
         /// </summary>
         /// <param name="token">Token to attach to</param>
-        /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250 for unsuccessful exit. On Windows, no restrictions are in place.</param>
-        /// <param name="exitMessage">Exit message when token gets cancelled</param>
+        /// <param name="terminateEventArgs">Termination event arguments</param>
         /// <returns></returns>
-        public TerminatorBuilder RegisterCancellationToken(CancellationToken token, int exitCode, string? exitMessage = null)
+        public TerminatorBuilder RegisterCancellationToken(CancellationToken token, TerminateEventArgs terminateEventArgs)
         {
             if (this._terminationToken is not null)
             {
                 throw new ArgumentException("Cancellation token is already registered.");
             }
 
-            this._terminationToken = new TerminationToken(token, exitCode, exitMessage);
+            Validator.Validate(this._validationLevel, terminateEventArgs);
+
+            this._terminationToken = new TerminationToken(token, terminateEventArgs);
 
             return this;
         }
@@ -120,16 +193,18 @@
         /// </summary>
         public ITerminator Build()
         {
-            var terminator = new Terminator(this._registry,
+            Validator.Validate(this._validationLevel, this._registry);
+
+            var terminator = new Terminator(
+                this._registry,
                 this._registerCTRLC,
                 this.TerminateEventHandler,
                 this.preTerminationAction,
                 this._terminationToken);
 
-            terminator.Validate();
-
             return terminator;
         }
+
 
         /// <summary>
         /// Registers CTRL+C (SIGINT) to terminate the application properly. Also executes <see cref="OnTerminating(TerminateEventArgs)" /> before.

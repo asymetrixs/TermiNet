@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
     <id>$id$</id>
@@ -11,12 +11,9 @@
     <projectUrl>https://github.com/asymetrixs/TermiNet</projectUrl>
     <!--<iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl>-->
     <description>$description$</description>
-    <releaseNotes>Redesigned setup. Added support for hooking onto a CancellationToken.</releaseNotes>
+    <releaseNotes>Added configurable validation.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>exit terminate exitcode exceptions</tags>
-    <dependencies>
-      <group targetFramework="net5.0" />
-    </dependencies>
   </metadata>
 
   <files>
