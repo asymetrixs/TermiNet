@@ -141,7 +141,30 @@
             // Assert
             Assert.NotNull(exception);
             Assert.Equal(typeof(NotSupportedException), exception.GetType());
-            Assert.Equal("An action is already registered", exception.Message);
+            Assert.Equal("A pre-termination action is already registered", exception.Message);
+        }
+
+        [Fact]
+        public void RegisterMultipleCtrlCActions()
+        {
+            // Arrage
+            var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None);
+            Exception exception = null;
+
+            builder.RegisterCtrlC(() => {; });
+            try
+            {
+                builder.RegisterCtrlC(() => {; });
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.Equal(typeof(NotSupportedException), exception.GetType());
+            Assert.Equal("A CTRL+C action is already registered", exception.Message);
         }
 
         [Fact]

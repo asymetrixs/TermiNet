@@ -39,6 +39,11 @@
         /// </summary>
         private IEnvironment _environment = new Environment();
 
+        /// <summary>
+        /// CTRL+C action
+        /// </summary>
+        private Action? _ctrlCAction = null;
+
         #endregion
 
         #region Constructor
@@ -50,23 +55,27 @@
         /// <param name="registerCtrlC"></param>
         /// <param name="terminateEventHandlers"></param>
         /// <param name="preTerminationAction"></param>
+        /// <param name="ctrlCAction"></param>
+        /// <param name="terminationToken"></param>
         internal Terminator(Dictionary<Type, TerminateEventArgs> errorCodeRegistry,
             bool registerCtrlC = false,
             EventHandler<TerminateEventArgs>? terminateEventHandlers = null,
             Action? preTerminationAction = null,
-            TerminationToken? terminationToken = null)
+            TerminationToken? terminationToken = null,
+            Action? ctrlCAction = null)
         {
             _ = errorCodeRegistry ?? throw new ArgumentNullException(nameof(errorCodeRegistry));
 
             if (registerCtrlC)
             {
                 Console.CancelKeyPress += Console_CancelKeyPress;
+                this._ctrlCAction = ctrlCAction;
             }
 
             this._registry = errorCodeRegistry;
             this._terminateEventHandler = terminateEventHandlers;
             this._preTerminationAction = preTerminationAction;
-            this._terminationToken = terminationToken;
+            this._terminationToken = terminationToken;            
 
             // Termination token
             if (this._terminationToken is not null)
@@ -221,6 +230,11 @@
 #endif
         private void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
         {
+            if (this._ctrlCAction is not null)
+            {
+                this._ctrlCAction();
+            }
+
             Terminate(new TerminateEventArgs(this.CtrlCSIGINTExitCode));
         }
 
@@ -243,6 +257,6 @@
             _environment.Exit(exitEventArgs.ExitCode);
         }
 
-#endregion
+        #endregion
     }
 }

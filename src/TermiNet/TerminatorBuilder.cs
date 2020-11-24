@@ -26,9 +26,14 @@
         private bool _registerCTRLC = false;
 
         /// <summary>
+        /// Control-C action
+        /// </summary>
+        private Action? _ctrlCAction = null;
+
+        /// <summary>
         /// Pre termination action is called before <see cref="TerminateEventHandler"/>
         /// </summary>
-        private Action? preTerminationAction = null;
+        private Action? _preTerminationAction = null;
 
         /// <summary>
         /// Termination token
@@ -183,8 +188,9 @@
                 this._registry,
                 this._registerCTRLC,
                 this.TerminateEventHandler,
-                this.preTerminationAction,
-                this._terminationToken);
+                this._preTerminationAction,
+                this._terminationToken,
+                this._ctrlCAction);
 
             return terminator;
         }
@@ -193,9 +199,19 @@
         /// <summary>
         /// Registers CTRL+C (SIGINT) to terminate the application properly. Also executes <see cref="OnTerminating(TerminateEventArgs)" /> before.
         /// </summary>
-        public TerminatorBuilder RegisterCtrlC()
+        public TerminatorBuilder RegisterCtrlC(Action action = null)
         {
             this._registerCTRLC = true;
+
+            if (action is not null)
+            {
+                if (this._ctrlCAction is not null)
+                {
+                    throw new NotSupportedException("A CTRL+C action is already registered");
+                }
+
+                this._ctrlCAction = action;
+            }
 
             return this;
         }
@@ -207,12 +223,12 @@
         /// <returns></returns>
         public TerminatorBuilder RegisterPreTerminationAction(Action preTermination)
         {
-            if (this.preTerminationAction is not null)
+            if (this._preTerminationAction is not null)
             {
-                throw new NotSupportedException("An action is already registered");
+                throw new NotSupportedException("A pre-termination action is already registered");
             }
 
-            this.preTerminationAction = preTermination;
+            this._preTerminationAction = preTermination;
 
             return this;
         }
