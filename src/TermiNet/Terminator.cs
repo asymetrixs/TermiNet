@@ -5,6 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
     using TermiNet.Event;
+    using TermiNet.Interfaces;
 
     /// <summary>
     /// Is used by an application to initiate termination of the application
@@ -32,6 +33,11 @@
         /// Termination token
         /// </summary>
         private readonly TerminationToken? _terminationToken = null;
+
+        /// <summary>
+        /// Environment
+        /// </summary>
+        private IEnvironment _environment = new Environment();
 
         #endregion
 
@@ -222,7 +228,7 @@
 
             OnTerminating(exitEventArgs);
 
-            Environment.Exit(exitEventArgs.ExitCode);
+            _environment.Exit(exitEventArgs.ExitCode);
         }
 
         #endregion

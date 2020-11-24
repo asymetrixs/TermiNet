@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TermiNet.Tests", "src\TermiNet.Tests\TermiNet.Tests.csproj", "{9871B399-408C-4D52-A3A0-5E992D15C788}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{B125B566-736C-4083-8B79-3B08CDE1296D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B125B566-736C-4083-8B79-3B08CDE1296D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B125B566-736C-4083-8B79-3B08CDE1296D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9871B399-408C-4D52-A3A0-5E992D15C788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9871B399-408C-4D52-A3A0-5E992D15C788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9871B399-408C-4D52-A3A0-5E992D15C788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9871B399-408C-4D52-A3A0-5E992D15C788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EB819C29-7F1B-4BC5-AD3F-9462614DC925} = {C029EFC0-4480-420C-A18D-A0BFAAA24F1F}
 		{B125B566-736C-4083-8B79-3B08CDE1296D} = {C029EFC0-4480-420C-A18D-A0BFAAA24F1F}
+		{9871B399-408C-4D52-A3A0-5E992D15C788} = {C029EFC0-4480-420C-A18D-A0BFAAA24F1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3616A5DA-FAC6-410E-A92A-36758D0664BE}

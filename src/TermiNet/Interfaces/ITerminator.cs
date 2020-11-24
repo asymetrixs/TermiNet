@@ -1,4 +1,4 @@
-﻿namespace TermiNet
+﻿namespace TermiNet.Interfaces
 {
     using System;
     using System.Runtime.InteropServices;

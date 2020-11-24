@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/asymetrixs/TermiNet</projectUrl>
     <!--<iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl>-->
     <description>$description$</description>
-    <releaseNotes>Added configurable validation.</releaseNotes>
+    <releaseNotes>Bugfix: Pretermination action could not be set.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>exit terminate exitcode exceptions</tags>
   </metadata>

@@ -1,9 +1,8 @@
-﻿namespace TermiNet
+﻿namespace TermiNet.Validation
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using TermiNet.Event;
     using TermiNet.ReservedCodes;
 
@@ -12,6 +11,8 @@
     /// </summary>
     internal class Validator
     {
+        #region Functions
+
         /// <summary>
         /// Performs checks on an individual termination event
         /// </summary>
@@ -31,7 +32,7 @@
                 }
             }
 
-            if (validationLevel.HasFlag(ValidationLevel.ExitCodeNotInReservedSpace) && TerminatorBuilder.OsPlatform != OSPlatform.Windows)
+            if (validationLevel.HasFlag(ValidationLevel.ExitCodeNotInReservedSpace))
             {
                 if (Enum.IsDefined(typeof(UnixCode), terminateEventArgs.ExitCode))
                 {
@@ -65,5 +66,7 @@
                 }
             }
         }
+
+        #endregion
     }
 }

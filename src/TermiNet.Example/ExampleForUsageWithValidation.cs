@@ -2,6 +2,7 @@
 {
     using System;
     using TermiNet.Event;
+    using TermiNet.Validation;
 
     static class ExampleForUsageWithValidation
     {

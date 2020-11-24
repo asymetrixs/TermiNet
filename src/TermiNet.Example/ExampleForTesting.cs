@@ -3,6 +3,7 @@
     using System;
     using System.Runtime.InteropServices;
     using TermiNet.Event;
+    using TermiNet.Interfaces;
 
     static class ExampleforTesting
     {
@@ -14,8 +15,8 @@
             // Retrieve fakeTerminator using ITerminator
 
             fakeTerminator.Terminate(55, "Last message");
-            // no real termination, but testing framework could retrieve the exit code and message
 
+            // no real termination, but testing framework can retrieve the exit code and message
             Console.WriteLine(fakeTerminator.LastExitCode);
             Console.Write(fakeTerminator.LastExitMessage);
         }

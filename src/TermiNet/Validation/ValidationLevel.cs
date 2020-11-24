@@ -1,4 +1,4 @@
-﻿namespace TermiNet
+﻿namespace TermiNet.Validation
 {
     using System;
 
@@ -20,7 +20,7 @@
         ExitCodeOnlyOnce = 2,
 
         /// <summary>
-        /// Check that exit codes is not in the reserved space. Ignored on <see cref="System.Runtime.InteropServices.OSPlatform.Windows"/>.
+        /// Check that exit codes is not in the reserved space.
         /// </summary>
         ExitCodeNotInReservedSpace = 4,
 

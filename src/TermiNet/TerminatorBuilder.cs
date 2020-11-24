@@ -5,6 +5,8 @@
     using System.Runtime.InteropServices;
     using System.Threading;
     using TermiNet.Event;
+    using TermiNet.Interfaces;
+    using TermiNet.Validation;
 
     /// <summary>
     /// Configures and builds the <see cref="Terminator"/>
@@ -36,25 +38,25 @@
         /// <summary>
         /// Default clean exit code
         /// </summary>
-        public static readonly int DefaultCleanExitCode;
+        public static readonly int DefaultCleanExitCode = 0;
 
         /// <summary>
         /// Default error exit code
         /// </summary>
-        public static readonly int DefaultErrorExitCode;
+        public static readonly int DefaultErrorExitCode = 1;
 
         /// <summary>
         /// Default SIGINT (CTRL-C) exit code
         /// </summary>
-        public static readonly int CtrlCSIGINTExitCode;
+        public static readonly int CtrlCSIGINTExitCode = 130;
 
         /// <summary>
         /// Maximal exit code (number, not severity)
         /// </summary>
-        public static readonly int MaxErrorExitCode;
+        public static readonly int MaxErrorExitCode = 255;
 
         /// <summary>
-        /// Operating System platform
+        /// Operating System Platform
         /// </summary>
         public static readonly OSPlatform OsPlatform;
 
@@ -67,6 +69,30 @@
 
         #region Constructor
 
+        static TerminatorBuilder()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                OsPlatform = OSPlatform.Linux;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+            {
+                OsPlatform = OSPlatform.FreeBSD;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                OsPlatform = OSPlatform.OSX;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                OsPlatform = OSPlatform.Windows;
+            }
+            else
+            {
+                throw new SystemException("Cannot resolve OS platform");
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TerminatorBuilder"/> class.
         /// </summary>
@@ -74,50 +100,6 @@
         internal TerminatorBuilder(ValidationLevel validationLevel)
         {
             this._validationLevel = validationLevel;
-        }
-
-        /// <summary>
-        /// Static constructor
-        /// </summary>
-        static TerminatorBuilder()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                DefaultCleanExitCode = 0;
-                DefaultErrorExitCode = 1;
-                CtrlCSIGINTExitCode = 130;
-                MaxErrorExitCode = 255;
-                OsPlatform = OSPlatform.Linux;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-            {
-                DefaultCleanExitCode = 0;
-                DefaultErrorExitCode = 1;
-                CtrlCSIGINTExitCode = 130;
-                MaxErrorExitCode = 255;
-                OsPlatform = OSPlatform.FreeBSD;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                DefaultCleanExitCode = 0;
-                DefaultErrorExitCode = 1;
-                CtrlCSIGINTExitCode = 130;
-                MaxErrorExitCode = 255;
-                OsPlatform = OSPlatform.OSX;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                /// TODO
-                DefaultCleanExitCode = 0;
-                DefaultErrorExitCode = 1;
-                CtrlCSIGINTExitCode = 0;
-                MaxErrorExitCode = 9999;
-                OsPlatform = OSPlatform.Windows;
-            }
-            else
-            {
-                throw new SystemException("Cannot resolve OS platform");
-            }
         }
 
         #endregion
@@ -178,7 +160,7 @@
         {
             if (this._terminationToken is not null)
             {
-                throw new ArgumentException("Cancellation token is already registered.");
+                throw new ArgumentException("A cancellation token is already registered.");
             }
 
             Validator.Validate(this._validationLevel, terminateEventArgs);
@@ -223,7 +205,7 @@
         /// <returns></returns>
         public TerminatorBuilder RegisterPreTerminationAction(Action preTermination)
         {
-            if (this.TerminateEventHandler is not null)
+            if (this.preTerminationAction is not null)
             {
                 throw new NotSupportedException("An action is already registered");
             }
