@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet", "src\TermiNet\TermiNet.csproj", "{3CE26922-C15D-4B58-813B-91AEA0A943CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A27904E2-0A55-4037-9B2B-802A5F4A2337}"
-	ProjectSection(SolutionItems) = preProject
-		src\TermiNet.Example\TermiNet.Example.csproj = src\TermiNet.Example\TermiNet.Example.csproj
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet.Tests", "src\TermiNet.Tests\TermiNet.Tests.csproj", "{C2AA5818-5566-4DA9-8D78-B112EEB41C12}"
 EndProject
@@ -21,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet.Example", "src\TermiNet.Example\TermiNet.Example.csproj", "{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +55,18 @@ Global
 		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|x64.Build.0 = Release|Any CPU
 		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|x86.ActiveCfg = Release|Any CPU
 		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|x86.Build.0 = Release|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Debug|x64.Build.0 = Debug|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Debug|x86.Build.0 = Debug|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Release|x64.ActiveCfg = Release|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Release|x64.Build.0 = Release|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Release|x86.ActiveCfg = Release|Any CPU
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +74,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3CE26922-C15D-4B58-813B-91AEA0A943CD} = {A27904E2-0A55-4037-9B2B-802A5F4A2337}
 		{C2AA5818-5566-4DA9-8D78-B112EEB41C12} = {A27904E2-0A55-4037-9B2B-802A5F4A2337}
+		{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC} = {A27904E2-0A55-4037-9B2B-802A5F4A2337}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C49198F-854E-4E0F-8141-F9FD1C161ED5}
