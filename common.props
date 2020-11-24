@@ -1,14 +1,16 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
     <PackageId>TermiNet</PackageId>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Nullable>enable</Nullable>
     <PackageTags>Terminate;Exit;Exception</PackageTags>
-    <Copyright>Copyright 2020</Copyright>
+    <Copyright>Copyright (c) 2020 Damian Wolgast</Copyright>
     <Authors>Damian Wolgast</Authors>
     <Description>TermiNet helps to exit an application in accordance with OS platform requirements.</Description>
     <Title>TermiNet - A library to properly exit from an application.</Title>
+    <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+    <PathMap>$(AppOutputBase)=$(MSBuildProjectName)/</PathMap>
   </PropertyGroup>
 </Project>

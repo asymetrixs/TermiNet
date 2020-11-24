@@ -44,7 +44,7 @@
 
         public int MaxErrorExitCode => 100;
 
-        public OSPlatform OSPlatform => OSPlatform.OSX;
+        public OSPlatform OsPlatform => OSPlatform.OSX;
 
         public void Terminate()
         {

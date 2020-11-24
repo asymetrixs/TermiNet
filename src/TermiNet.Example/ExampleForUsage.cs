@@ -10,10 +10,10 @@
             Console.WriteLine("Hello World!");
 
             // Set up builder
-            var builder = TerminatorBuilder.CreateBuilder()
+            var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None)
                 .RegisterCtrlC()
                 .RegisterPreTerminationAction(() => { Console.WriteLine("Pre Termination Action"); })
-                .Register<ArgumentException>(77, "Optional example message");
+                .Register<ArgumentException>(new TerminateEventArgs(77, "Optional example message"));
             builder.TerminateEventHandler += Exit_Terminating;
 
             // Build terminator

@@ -13,8 +13,8 @@
             var cts = new CancellationTokenSource();
 
             // Set up builder
-            var builder = TerminatorBuilder.CreateBuilder()
-                .RegisterCancellationToken(cts.Token, 20, "Terminated by CTS");
+            var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None)
+                .RegisterCancellationToken(cts.Token, new TerminateEventArgs(20, "Terminated by CTS"));
             builder.TerminateEventHandler += Exit_Terminating;
 
             // Build terminator
