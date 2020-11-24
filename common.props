@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
     <PackageId>TermiNet</PackageId>
-    <Version>0.4.0</Version>
+    <Version>0.4.1</Version>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Nullable>enable</Nullable>
@@ -10,6 +10,11 @@
     <Authors>Damian Wolgast</Authors>
     <Description>TermiNet helps to exit an application in accordance with OS platform requirements.</Description>
     <Title>TermiNet - A library to properly exit from an application.</Title>
+    <PackageProjectUrl>https://github.com/asymetrixs/TermiNet</PackageProjectUrl>
+    <PackageReleaseNotes>Added possibility to add action when CTRL+C is pressed</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/asymetrixs/TermiNet</RepositoryUrl>
+    <PackageTags>terminate; exit; exception; exit code</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
     <PathMap>$(AppOutputBase)=$(MSBuildProjectName)/</PathMap>
   </PropertyGroup>
