@@ -34,10 +34,12 @@
                     {
                         this._osPlatform = OSPlatform.Linux;
                     }
+#if NET5_0
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                     {
                         this._osPlatform = OSPlatform.FreeBSD;
                     }
+#endif
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
                         this._osPlatform = OSPlatform.OSX;
@@ -64,7 +66,9 @@
         /// Exits
         /// </summary>
         /// <param name="code"></param>
+#if NET5_0
         [DoesNotReturn]
+#endif
         public void Exit(int code)
         {
             System.Environment.Exit(code);

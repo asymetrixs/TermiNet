@@ -2,55 +2,69 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet", "src\TermiNet\TermiNet.csproj", "{EB819C29-7F1B-4BC5-AD3F-9462614DC925}"
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet", "src\TermiNet\TermiNet.csproj", "{3CE26922-C15D-4B58-813B-91AEA0A943CD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet.Example", "src\TermiNet.Example\TermiNet.Example.csproj", "{B125B566-736C-4083-8B79-3B08CDE1296D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C029EFC0-4480-420C-A18D-A0BFAAA24F1F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{41AAB0CE-F81F-40C4-9E49-9126C2898F21}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A27904E2-0A55-4037-9B2B-802A5F4A2337}"
 	ProjectSection(SolutionItems) = preProject
-		common.props = common.props
-		default.ruleset = default.ruleset
-		README.md = README.md
+		src\TermiNet.Example\TermiNet.Example.csproj = src\TermiNet.Example\TermiNet.Example.csproj
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E0048909-5F29-4672-A21C-46DBD60400D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet.Tests", "src\TermiNet.Tests\TermiNet.Tests.csproj", "{C2AA5818-5566-4DA9-8D78-B112EEB41C12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{80F2AA87-0E76-4851-94DE-05A3CD3806F6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		common.props = common.props
+		default.ruleset = default.ruleset
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TermiNet.Tests", "src\TermiNet.Tests\TermiNet.Tests.csproj", "{9871B399-408C-4D52-A3A0-5E992D15C788}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB819C29-7F1B-4BC5-AD3F-9462614DC925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB819C29-7F1B-4BC5-AD3F-9462614DC925}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB819C29-7F1B-4BC5-AD3F-9462614DC925}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB819C29-7F1B-4BC5-AD3F-9462614DC925}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B125B566-736C-4083-8B79-3B08CDE1296D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B125B566-736C-4083-8B79-3B08CDE1296D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B125B566-736C-4083-8B79-3B08CDE1296D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B125B566-736C-4083-8B79-3B08CDE1296D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9871B399-408C-4D52-A3A0-5E992D15C788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9871B399-408C-4D52-A3A0-5E992D15C788}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9871B399-408C-4D52-A3A0-5E992D15C788}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9871B399-408C-4D52-A3A0-5E992D15C788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Debug|x64.Build.0 = Debug|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Debug|x86.Build.0 = Debug|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Release|x64.ActiveCfg = Release|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Release|x64.Build.0 = Release|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD}.Release|x86.Build.0 = Release|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Debug|x64.Build.0 = Debug|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Debug|x86.Build.0 = Debug|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|x64.ActiveCfg = Release|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|x64.Build.0 = Release|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|x86.ActiveCfg = Release|Any CPU
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EB819C29-7F1B-4BC5-AD3F-9462614DC925} = {C029EFC0-4480-420C-A18D-A0BFAAA24F1F}
-		{B125B566-736C-4083-8B79-3B08CDE1296D} = {C029EFC0-4480-420C-A18D-A0BFAAA24F1F}
-		{9871B399-408C-4D52-A3A0-5E992D15C788} = {C029EFC0-4480-420C-A18D-A0BFAAA24F1F}
+		{3CE26922-C15D-4B58-813B-91AEA0A943CD} = {A27904E2-0A55-4037-9B2B-802A5F4A2337}
+		{C2AA5818-5566-4DA9-8D78-B112EEB41C12} = {A27904E2-0A55-4037-9B2B-802A5F4A2337}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3616A5DA-FAC6-410E-A92A-36758D0664BE}
+		SolutionGuid = {9C49198F-854E-4E0F-8141-F9FD1C161ED5}
 	EndGlobalSection
 EndGlobal

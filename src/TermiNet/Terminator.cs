@@ -142,7 +142,9 @@
         /// <summary>
         /// Terminates the app signaling a clean exit
         /// </summary>
+#if NET5_0
         [DoesNotReturn]
+#endif
         public void Terminate()
         {
             _Terminate(new TerminateEventArgs(this.DefaultCleanExitCode, null));
@@ -155,7 +157,9 @@
         /// <param name="exitCode">Use 0 for success. On Unix restrict codes to range from 170 to 250
         /// for unsuccessful exit. On Windows, no restrictions are in place.</param>
         /// <param name="exitMessage">Exit message for use in <see cref="OnTerminating(TerminateEventArgs)"/></param>
+#if NET5_0
         [DoesNotReturn]
+#endif
         public void Terminate(int exitCode, string? exitMessage = null)
         {
             if (exitCode > this.MaxErrorExitCode)
@@ -170,7 +174,9 @@
         /// Terminates the app. Uses registered information or <see cref="this.DefaultErrorExitCode"/> and the exceptions name and message.
         /// </summary>
         /// <param name="e">Exception that will be used to determine the exit code (if registered).</param>
+#if NET5_0
         [DoesNotReturn]
+#endif
         public void Terminate(Exception e)
         {
             if (_registry.TryGetValue(e.GetType(), out TerminateEventArgs? exitEventArgs))
@@ -187,7 +193,9 @@
         /// Terminates the app with the specified <paramref name="exitEventArgs"/>
         /// </summary>
         /// <param name="exitEventArgs">Event with exit code and message.</param>
+#if NET5_0
         [DoesNotReturn]
+#endif
         public void Terminate(TerminateEventArgs exitEventArgs)
         {
             _Terminate(exitEventArgs);
@@ -208,7 +216,9 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+#if NET5_0
         [DoesNotReturn]
+#endif
         private void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
         {
             Terminate(new TerminateEventArgs(this.CtrlCSIGINTExitCode));
@@ -218,7 +228,9 @@
         /// Actually terminates the app
         /// </summary>
         /// <param name="exitEventArgs"></param>
+#if NET5_0
         [DoesNotReturn]
+#endif
         private void _Terminate(TerminateEventArgs exitEventArgs)
         {
             if (this._preTerminationAction is not null)
@@ -231,6 +243,6 @@
             _environment.Exit(exitEventArgs.ExitCode);
         }
 
-        #endregion
+#endregion
     }
 }

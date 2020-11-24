@@ -1,5 +1,6 @@
 ﻿namespace TermiNet.Interfaces
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
 
     /// <summary>
@@ -11,6 +12,9 @@
         /// Exits
         /// </summary>
         /// <param name="code"></param>
+#if NET5_0
+        [DoesNotReturn]
+#endif
         void Exit(int code);
 
         /// <summary>

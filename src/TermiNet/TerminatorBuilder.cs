@@ -75,10 +75,12 @@
             {
                 OsPlatform = OSPlatform.Linux;
             }
+#if NET5_0
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
             {
                 OsPlatform = OSPlatform.FreeBSD;
             }
+#endif
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 OsPlatform = OSPlatform.OSX;

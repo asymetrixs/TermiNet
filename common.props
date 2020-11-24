@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
     <PackageId>TermiNet</PackageId>
-    <Version>0.3.1</Version>
+    <Version>0.3.2</Version>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Nullable>enable</Nullable>
