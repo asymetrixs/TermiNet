@@ -1,25 +1,22 @@
-﻿namespace TermiNet.Interfaces
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+
+namespace TermiNet.Interfaces;
+
+/// <summary>
+/// Interface proxying the environment
+/// </summary>
+public interface IEnvironment
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Runtime.InteropServices;
+    /// <summary>
+    /// Exits
+    /// </summary>
+    /// <param name="code"></param>
+    [DoesNotReturn]
+    void Exit(int code);
 
     /// <summary>
-    /// Interface proxying the environment
+    /// Operating System Platform
     /// </summary>
-    public interface IEnvironment
-    {
-        /// <summary>
-        /// Exits
-        /// </summary>
-        /// <param name="code"></param>
-#if NET5_0
-        [DoesNotReturn]
-#endif
-        void Exit(int code);
-
-        /// <summary>
-        /// Operating System Platform
-        /// </summary>
-        OSPlatform OSPlatform { get; }
-    }
+    OSPlatform OSPlatform { get; }
 }

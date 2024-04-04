@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet.Example", "src\TermiNet.Example\TermiNet.Example.csproj", "{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermiNet.Sample", "src\TermiNet.Sample\TermiNet.Sample.csproj", "{02DC9023-A4F9-47C7-A8D2-2361BB32A8FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

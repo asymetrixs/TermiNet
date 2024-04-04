@@ -1,72 +1,69 @@
-﻿namespace TermiNet.Validation
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TermiNet.Event;
+using TermiNet.ReservedCodes;
+
+namespace TermiNet.Validation;
+
+/// <summary>
+/// Validates the <see cref="Terminator"/> configuration
+/// </summary>
+internal class Validator
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using TermiNet.Event;
-    using TermiNet.ReservedCodes;
+    /// <summary>
+    /// Performs checks on an individual termination event
+    /// </summary>
+    /// <param name="validationLevel">Validation level</param>
+    /// <param name="terminateEventArgs">Termination event</param>
+    internal static void Validate(ValidationLevel validationLevel, TerminateEventArgs terminateEventArgs)
+    {
+        if (validationLevel.HasFlag(ValidationLevel.ExitCodeWithBoundaries))
+        {
+            if (terminateEventArgs.ExitCode > TerminatorBuilder.MaxErrorExitCode)
+            {
+                throw new ArgumentOutOfRangeException(
+                    $"{nameof(terminateEventArgs.ExitCode)} cannot be greater than {nameof(TerminatorBuilder.MaxErrorExitCode)}: {TerminatorBuilder.MaxErrorExitCode}");
+            }
+            else if (terminateEventArgs.ExitCode < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(terminateEventArgs.ExitCode)} cannot be less than 0.");
+            }
+        }
+
+        if (validationLevel.HasFlag(ValidationLevel.ExitCodeNotInReservedSpace))
+        {
+            if (Enum.IsDefined(typeof(UnixCode), terminateEventArgs.ExitCode))
+            {
+                var linuxExitCode = (UnixCode)terminateEventArgs.ExitCode;
+
+                throw new ArgumentException(
+                    $"Exit code {terminateEventArgs.ExitCode} is already defined by {nameof(UnixCode)}: {linuxExitCode}");
+            }
+        }
+    }
 
     /// <summary>
-    /// Validates the <see cref="Terminator"/> configuration
+    /// Performs checks on the event store
     /// </summary>
-    internal class Validator
+    /// <param name="validationLevel">Validation level</param>
+    /// <param name="registry">Event store</param>
+    internal static void Validate(ValidationLevel validationLevel, Dictionary<Type, TerminateEventArgs> registry)
     {
-        #region Functions
-
-        /// <summary>
-        /// Performs checks on an individual termination event
-        /// </summary>
-        /// <param name="validationLevel">Validation level</param>
-        /// <param name="terminateEventArgs">Termination event</param>
-        internal static void Validate(ValidationLevel validationLevel, TerminateEventArgs terminateEventArgs)
+        if (validationLevel.HasFlag(ValidationLevel.ExitCodeOnlyOnce))
         {
-            if (validationLevel.HasFlag(ValidationLevel.ExitCodeWithBoundaries))
-            {
-                if (terminateEventArgs.ExitCode > TerminatorBuilder.MaxErrorExitCode)
-                {
-                    throw new ArgumentOutOfRangeException($"{nameof(terminateEventArgs.ExitCode)} cannot be greater than {nameof(TerminatorBuilder.MaxErrorExitCode)}: {TerminatorBuilder.MaxErrorExitCode}");
-                }
-                else if (terminateEventArgs.ExitCode < 0)
-                {
-                    throw new ArgumentOutOfRangeException($"{nameof(terminateEventArgs.ExitCode)} cannot be less than 0.");
-                }
-            }
+            var multipleUsage = (from r in registry
+                group r by r.Value.ExitCode
+                into m
+                where m.Count() > 1
+                select m);
 
-            if (validationLevel.HasFlag(ValidationLevel.ExitCodeNotInReservedSpace))
+            if (multipleUsage.Any())
             {
-                if (Enum.IsDefined(typeof(UnixCode), terminateEventArgs.ExitCode))
-                {
-                    var linuxExitCode = (UnixCode)terminateEventArgs.ExitCode;
+                var code = multipleUsage.First();
 
-                    throw new ArgumentException($"Exit code {terminateEventArgs.ExitCode} is already defined by {nameof(UnixCode)}: {linuxExitCode}");
-                }
+                throw new ArgumentException($"Code {code.Key} is used more than once.");
             }
         }
-
-        /// <summary>
-        /// Performs checks on the event store
-        /// </summary>
-        /// <param name="validationLevel">Validation level</param>
-        /// <param name="registry">Event store</param>
-        internal static void Validate(ValidationLevel validationLevel, Dictionary<Type, TerminateEventArgs> registry)
-        {
-            if (validationLevel.HasFlag(ValidationLevel.ExitCodeOnlyOnce))
-            {
-                var multipleUsage = (from r in registry
-                                     group r by r.Value.ExitCode
-                                into m
-                                     where m.Count() > 1
-                                     select m);
-
-                if (multipleUsage.Any())
-                {
-                    var code = multipleUsage.First();
-
-                    throw new ArgumentException($"Code {code.Key} is used more than once.");
-                }
-            }
-        }
-
-        #endregion
     }
 }
