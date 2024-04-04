@@ -120,3 +120,5 @@ Log
 Log/**
 
 **/appsettings.Development.json
+
+.idea/
