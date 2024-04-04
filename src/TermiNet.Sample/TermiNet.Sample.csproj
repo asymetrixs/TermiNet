@@ -3,13 +3,19 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <PackageId>TermiNet.Sample</PackageId>
     <TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <RootNamespace>TermiNet.Sample</RootNamespace>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TermiNet\TermiNet.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

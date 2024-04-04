@@ -4,8 +4,6 @@ Libary that can be used to properly terminate an application on Windows, Linux, 
 
 NuGet: <https://www.nuget.org/packages/TermiNet/>
 
-Library is work in progress :)
-
 ## Why?
 
 Today, .NET Core runs on Linux, FreeBSD, OSX, and Windows. There are big differences between *nix and Windows based operating systems on how error codes are interpreted.
