@@ -27,7 +27,7 @@ public static void Run()
 {
     Console.WriteLine("Hello World!");
 
-    var builder = TerminatorBuilder.CreateBuilder().Build();
+    var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None).Build();
     var terminator = builder.Build();
 
     terminator.Terminate(55, "Exiting with exit code 55.");
@@ -41,7 +41,7 @@ public static void Run()
 {
     Console.WriteLine("Hello World!");
 
-    var builder = TerminatorBuilder.CreateBuilder()
+    var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None)
         .RegisterCtrlC()
         .RegisterPreTerminationAction(() => { Console.WriteLine("Pre Termination Action"); })
         .Register<ArgumentException>(100, "Optional example message");
@@ -73,7 +73,7 @@ public static void Run()
     var cts = new CancellationTokenSource();
 
     // Setup termintator
-    var builder = TerminatorBuilder.CreateBuilder()
+    var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None)
         .RegisterCancellationToken(cts.Token, 20, "Terminated by CTS");
     
     var terminator = builder.Build();
