@@ -1,6 +1,6 @@
 # TermiNet
 
-Libary that can be used to properly terminate an application on Windows, Linux, FreeBSD, and OSX.
+Library that can be used to properly terminate an application on Windows, Linux, FreeBSD, and OSX.
 
 NuGet: <https://www.nuget.org/packages/TermiNet/>
 
@@ -14,7 +14,7 @@ Now, having an application that on Windows perfectly returns 2711 or 9283 to ind
 ## Advantages
 
 TermiNet allows for configuration of exit codes in various ways. You can register exceptions and assign codes or provide an exit code directly. Also TermiNet allows to register an pre-termination event and an action, both are called before the application terminates. Moreover, using ```System.Exit(0)``` can cause trouble when testing the application. TermiNet provides an interface that can be used during testing.
-Another idea is using TermiNet with docker or in a service. An application can implement TermiNet and exit with a specific exit code on a certain event, e.g. when a referred service in another docker container (or service) does not respond. Docker (or the service manager) can then evaluate the exit code and be configured to spwan the referred docker application (or service) first, before it spawns your application again.
+Another idea is using TermiNet with docker or in a service. An application can implement TermiNet and exit with a specific exit code on a certain event, e.g. when a referred service in another docker container (or service) does not respond. Docker (or the service manager) can then evaluate the exit code and be configured to spawn the referred docker application (or service) first, before it spawns your application again.
 
 ## Examples
 
@@ -27,7 +27,7 @@ public static void Run()
 {
     Console.WriteLine("Hello World!");
 
-    var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None).Build();
+    var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None);
     var terminator = builder.Build();
 
     terminator.Terminate(55, "Exiting with exit code 55.");
@@ -72,7 +72,7 @@ public static void Run()
     // Create cancellation token
     var cts = new CancellationTokenSource();
 
-    // Setup termintator
+    // Setup terminator
     var builder = TerminatorBuilder.CreateBuilder(ValidationLevel.None)
         .RegisterCancellationToken(cts.Token, 20, "Terminated by CTS");
     
